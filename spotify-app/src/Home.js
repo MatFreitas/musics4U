@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
+import axios from 'axios' 
 
 class Home extends Component {
 	constructor(props) {
 		super(props);
 		const parametros = this.getHashParams();
 		this.token = parametros.access_token;
+		this.state= {data:[]}
+		
+		this.Userplaylist = this.Userplaylist.bind(this);
 	}
 
 	getHashParams() {
@@ -34,19 +38,28 @@ class Home extends Component {
 		});
 	};
 
-	Userplaylist = () => {
-		$.ajax({
+	Userplaylist =  () => {
+		/*$.ajax({
 			method: 'GET',
 			dataType: 'Json',
-			url: 'https://api.spotify.com/v1/users/pbeatriz18/playlists',
-			headers: {
-				Authorization: `Bearer ${this.token}`,
-				scope: 'user-read-private'
-			}
+			url: 'http://localhost:8888/playlists'
 		}).then((dados) => {
 			console.log(dados);
-		});
+		});*/
+		axios.get('http://localhost:8888/playlists')
+		.then((response) => {
+			this.setState({data:response.data.items})
+			console.log(response.data.items)
+		})
+		.catch(erro => console.log(erro.response.data))
 	};
+
+	/*.then((response) => {
+		//this.state.listaUsuarios =  response;
+		this.setState({listaUsuarios: response.data});
+		console.log(response)
+	})
+	.catch(erro => console.log(erro))*/
 
 	Authorization = () => {
 		$.ajax({
@@ -60,14 +73,38 @@ class Home extends Component {
 	};
 
 	render() {
+		var playlists= this.state.data;
+		var playlist= playlists.map(playlist => {
+			return(
+			<div> {playlist.name}</div>
+			);
+		})
+
+		var playlistImg= playlists.map(playlist => {
+			return(
+			 playlist.images.map(images =>{
+				 return(
+				<div>{images.url}</div>
+				//<img src={images.url}> </img>
+				 );
+			 
+	
+
+		
+		}))})
+
 		return (
 			<div className="App">
+				<div>{playlist} </div>
 				<button>
 					<a href="http://localhost:8888/login">Logar com Spotify</a>
 				</button>
 				<button onClick={this.topTracksLorde}>Buscar top tracks da Lorde</button>
 				<button onClick={this.Userplaylist}>Buscar playlist do user</button>
 				<button onClick={this.Authorization}>Authorization</button>
+				<button>
+					<a href="http://localhost:8888/playlists">Ver playlists</a>
+				</button>
 			</div>
 		);
 	}
