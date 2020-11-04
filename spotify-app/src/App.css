@@ -2,6 +2,12 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  display: flex;
+  flex-direction: column;
+  height:100vh;
+  background-color: #000000;
+  justify-content: center;
+  align-items: center;
   
 
     /* background-color: #1b1121;
@@ -9,7 +15,7 @@
   height: auto; */
 }
 
-body{
+/* body{
   display: flex;
   height:100vh;
   background-color: #3d1950;
@@ -19,7 +25,7 @@ body{
   /* background:linear-gradient(to bottom right,#3d1950,#481c6b); */
   /*background-repeat:no-repeat; */
   /* background-image: linear-gradient(to bottom right, red, yellow); */
-}
+/* } */
 
 .logo{
   /* justify-content: center; */
@@ -38,13 +44,13 @@ body{
   border-color: transparent;
   height: 150px;
   width: 150px;
-  margin-right: 25px;
+  margin-right: 65px;
 
  }
 
  .botao1{
 
-  height: 50px;
+  height: 70px;
   
 
  }

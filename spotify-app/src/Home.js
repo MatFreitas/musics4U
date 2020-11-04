@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
-import axios from 'axios' 
 
+import $ from 'jquery';
+import axios from 'axios';
+import './Home.css';
 class Home extends Component {
 	constructor(props) {
 		super(props);
 		const parametros = this.getHashParams();
 		this.token = parametros.access_token;
-		this.state= {data:[]}
-		
+		this.state = {
+			data: [],
+			user: '',
+			buscarPlaylist: false
+		};
+
 		this.Userplaylist = this.Userplaylist.bind(this);
+		this.playlist = this.playlist.bind(this);
 	}
 
 	getHashParams() {
@@ -34,32 +40,20 @@ class Home extends Component {
 				Authorization: `Bearer ${this.token}`
 			}
 		}).then((dados) => {
+			this.setState({ Userplaylist: false });
 			console.log(dados.tracks);
 		});
 	};
 
-	Userplaylist =  () => {
-		/*$.ajax({
-			method: 'GET',
-			dataType: 'Json',
-			url: 'http://localhost:8888/playlists'
-		}).then((dados) => {
-			console.log(dados);
-		});*/
-		axios.get('http://localhost:8888/playlists')
-		.then((response) => {
-			this.setState({data:response.data.items})
-			console.log(response.data.items)
-		})
-		.catch(erro => console.log(erro.response.data))
+	Userplaylist = () => {
+		axios
+			.get('http://localhost:8888/playlists')
+			.then((response) => {
+				this.setState({ data: response.data.items, Userplaylist: true });
+				console.log(response.data.items);
+			})
+			.catch((erro) => console.log(erro.response.data));
 	};
-
-	/*.then((response) => {
-		//this.state.listaUsuarios =  response;
-		this.setState({listaUsuarios: response.data});
-		console.log(response)
-	})
-	.catch(erro => console.log(erro))*/
 
 	Authorization = () => {
 		$.ajax({
@@ -72,39 +66,103 @@ class Home extends Component {
 		});
 	};
 
-	render() {
-		var playlists= this.state.data;
-		var playlist= playlists.map(playlist => {
-			return(
-			<div> {playlist.name}</div>
+	playlist = () => {
+		var playlists = this.state.data;
+		// var playlist = playlists.map((playlist) => {
+		// 	return <div> {playlist.name}</div>;
+		// });
+
+		var playlistImg = playlists.map((playlist) => {
+			// this.setState({ user: playlist.owner });
+			return (
+				<div>
+					<div className="organizacao">
+						<img className="images" src={playlist.images[0].url} width={150} height={150} />
+						<div className="desc">
+							<div className="info"> {playlist.name}</div>
+							{playlist.collaborative ? (
+								<h4 className="info2"> Playlist Colaborativa</h4>
+							) : (
+								<h4 className="info2"> Playlist Não Colaborativa </h4>
+							)}
+							{playlist.public ? (
+								<h4 className="info2"> Playlist Pública</h4>
+							) : (
+								<h4 className="info2"> Playlist Privada </h4>
+							)}
+						</div>
+					</div>
+					<hr className="line" />
+				</div>
 			);
-		})
+		});
 
-		var playlistImg= playlists.map(playlist => {
-			return(
-			 playlist.images.map(images =>{
-				 return(
-				<div>{images.url}</div>
-				//<img src={images.url}> </img>
-				 );
-			 
-	
-
-		
-		}))})
-
+		// var playlistImg = playlists.map((playlist) => {
+		// 	return playlist.images.map((images) => {
+		// 		return (
+		// 			<img src={images[1].url} />
+		// 			//<img src={images.url}> </img>
+		// 		);
+		// 	});
+		// });
 		return (
-			<div className="App">
-				<div>{playlist} </div>
-				<button>
-					<a href="http://localhost:8888/login">Logar com Spotify</a>
-				</button>
-				<button onClick={this.topTracksLorde}>Buscar top tracks da Lorde</button>
-				<button onClick={this.Userplaylist}>Buscar playlist do user</button>
-				<button onClick={this.Authorization}>Authorization</button>
-				<button>
-					<a href="http://localhost:8888/playlists">Ver playlists</a>
-				</button>
+			<div>
+				<h1 className="title">Suas playlists</h1>
+				{/* <div> {this.state.user}</div> */}
+
+				<div> {playlistImg}</div>
+				{/* <div className="organizacao">
+					<div className="images"> {playlistImg}</div>
+					<div className="info">{playlist}</div>
+				</div> */}
+			</div>
+		);
+	};
+	render() {
+		// var playlists = this.state.data;
+		// var playlist = playlists.map((playlist) => {
+		// 	return <div> {playlist.name}</div>;
+		// });
+
+		// var playlistImg = playlists.map((playlist) => {
+		// 	return playlist.images.map((images) => {
+		// 		return (
+		// 			<img src={images.url} />
+		// 			//<img src={images.url}> </img>
+		// 		);
+		// 	});
+		// });
+		// const button1 = playlist();
+		return (
+			<div className="body_home">
+				<div className="container">
+					<div className="Home">
+						<div class="img" />
+						<div className="botoes">
+							<button class="btn">
+								<a class="link" href="http://localhost:8888/login">
+									Logar com Spotify
+								</a>
+							</button>
+							<button class="btn" onClick={this.topTracksLorde}>
+								Buscar top tracks da Lorde
+							</button>
+							<button class="btn" onClick={this.Userplaylist}>
+								Buscar playlist do user
+							</button>
+							<button class="btn" onClick={this.Authorization}>
+								Authorization
+							</button>
+							<button class="btn">
+								<a class="link" href="http://localhost:8888/playlists">
+									Ver playlists
+								</a>
+							</button>
+						</div>
+					</div>
+
+					{this.state.Userplaylist && <div>{this.playlist()}</div>}
+				</div>
 			</div>
 		);
 	}
