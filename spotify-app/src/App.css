@@ -15,12 +15,10 @@
   height: auto; */
 }
 
-/* body{
-  display: flex;
-  height:100vh;
-  background-color: #3d1950;
-  justify-content: center;
-  align-items: center;
+body{
+
+  background-color: #000000;}
+  
 
   /* background:linear-gradient(to bottom right,#3d1950,#481c6b); */
   /*background-repeat:no-repeat; */

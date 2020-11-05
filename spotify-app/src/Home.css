@@ -1,18 +1,34 @@
 .Home{
-    height:1000px;
+    height:1300px;
+    position: fixed; 
     width: 300px;
-    background-color:#454D4B  ;
+    background: linear-gradient(#454D4B, #8f9b97);
+
+    /* background-color:#8f9b97; */
+
+    /* position:fixed  */
 
     /* background-color:#161616f5; */
     /* border-top-right-radius: 100px;
     border-bottom-right-radius: 100px; */
 }
 
+.bloco{
+   
+
+    margin-left: 300px;
+    margin-top: -35px;
+    padding-top: 30px;
+
+}
+
 .body_home{
-    /* background: linear-gradient(#000000,#333333); */
-    background-color: #000000;
+    /* background: linear-gradient(#000000,#454D4B); */
+    /* background-color: #FFFFFF; */
     display: flex;
     justify-content: flex-start;
+    
+    
    
 }
 .link {
@@ -47,6 +63,16 @@
     flex-direction: column;
 }
 
+.imagesRound{
+    display: flex;
+    /* flex-direction: column; */
+    border-radius: 100px;
+    align-self: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .btn{
    
     background-color: transparent;
@@ -60,6 +86,17 @@
     
     
 }
+.btn:focus {
+    outline: none !important;
+    outline-offset: none !important;
+}
+
+.coluna{
+    display: flex;
+    flex-direction: column;
+    margin-left:300px;
+}
+
 
 .info{
     color:#FFFFFF;
@@ -100,17 +137,163 @@
 }
 
 .line{
-    width: 950px;
+    width:1180px;
     margin:15px;
     color:454D4B;
     /* margin-top:40px;
     margin-bottom:40px; */
 }
 
+.centro{
+    
+    /* margin-left: 430px; */
+    display: block;
+    align-self: flex-end;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .title{
     color:#FFFFFF;
     font-size:50px;
     font-family: Arial, Helvetica, sans-serif;
-    text-transform: uppercase;
-    margin-left:30px;
+    margin-left:20px;
+    /* margin-bottom: 40px; */
+    
 }
+
+.escutados{
+    /* background-color: seagreen; */
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    /* background-color: skyblue; */
+}
+
+.antigas{
+    margin-left: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    flex-direction: row;
+    display:flex;
+    justify-content: space-between;
+    margin-right: 50px;
+}
+
+.separando{
+    flex-direction: row;
+    display:flex;
+    width: 1145px;
+    padding-left: 25px;
+    justify-content: space-between;
+    /* background-color: sandybrown; */
+    font-size: 26px;
+}
+
+.grid-container {
+  display: grid;
+  /* flex:1; */
+  grid-template-columns: 1fr 1fr 1fr 1fr; 
+  /* padding: 10px;  */
+  align-items: center;
+  /* flex-direction: row; */
+}
+
+.tracks-container {
+    display: grid;
+    /* flex:1; */
+    grid-template-columns: 1fr 1fr 1fr; 
+    /* padding: 10px;  */
+    align-items: left;
+    /* flex-direction: row; */
+  }
+
+.musicas{
+    flex: 1;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* padding-left: 20px; */
+}
+
+.grid-item{
+    /* display: flex;
+    justify-content:center; */
+    /* margin-left:20px; */
+    height:300px;
+    /* background-color: salmon; */
+    
+}
+
+.TrackName{
+    /* display:flex;
+    flex-shrink: 1;
+    max-width:180px;
+    text-align:center; */
+    /* background-color: red; */
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: -10px;
+
+    
+}
+
+
+.containerEscutando{
+    display: flex;
+    flex-direction: column;
+    
+    /* background-image:url(yourimage);
+    background-size: 1px 1px; */
+}
+
+.Texto{
+    margin-bottom: -10px;
+}
+
+.centralizacao{
+    /* display: flex;
+    flex-direction: column; */
+    text-align: center;
+    /* background-color: royalblue; */
+    /* margin-bottom: 50px; */
+}
+
+.imagesEscutando {
+        /* display: flex;
+        flex-direction: column; */
+        /* align-self: center; 
+        display: block;
+        margin-left: auto;
+        margin-right: auto; */
+    
+}
+
+.blocoEscutando {
+    display:flex;
+    flex:1;
+    flex-direction: column;
+    align-items:center;
+    width:1219px;
+
+    margin-left: 300px;
+    
+    
+}
+
+.musicatxt{
+
+    font-size:25px;
+    font-weight: bold;
+}
+
+.albumtxt{
+
+    font-size:20px;
+    display:flex;
+    align-self:center;
+    margin-top: -30px;
+}
+
+
