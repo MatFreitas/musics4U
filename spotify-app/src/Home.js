@@ -10,12 +10,16 @@ class Home extends Component {
 		this.token = parametros.access_token;
 		this.state = {
 			data: [],
+			dataLan:[],
 			user: '',
-			buscarPlaylist: false
+			Userplaylist: false,
+			Lancamentos:false
 		};
 
 		this.Userplaylist = this.Userplaylist.bind(this);
 		this.playlist = this.playlist.bind(this);
+		this.newRelease = this.newRelease.bind(this);
+		
 	}
 
 	getHashParams() {
@@ -45,6 +49,29 @@ class Home extends Component {
 		});
 	};
 
+	newRelease = () => {
+		axios
+			.get('https://api.spotify.com/v1/browse/new-releases?limit=10', {
+				headers: {
+				  Authorization: `Bearer ${this.token}`,
+				},
+			  })
+			.then((response) => {
+				this.setState({ dataLan: response.data.items, Lancamentos: true });
+				console.log(response.data.albums);
+			})
+			.catch((erro) => console.log(erro.response.data));
+		
+		var lancamentos = this.state.dataLan
+		var lancamento = lancamentos.map((release) => {
+			return(
+			<div>
+				{release.artists.}
+			</div>
+		)
+		})
+	};
+
 	Userplaylist = () => {
 		axios
 			.get('http://localhost:8888/playlists')
@@ -68,9 +95,6 @@ class Home extends Component {
 
 	playlist = () => {
 		var playlists = this.state.data;
-		// var playlist = playlists.map((playlist) => {
-		// 	return <div> {playlist.name}</div>;
-		// });
 
 		var playlistImg = playlists.map((playlist) => {
 			// this.setState({ user: playlist.owner });
@@ -97,42 +121,15 @@ class Home extends Component {
 			);
 		});
 
-		// var playlistImg = playlists.map((playlist) => {
-		// 	return playlist.images.map((images) => {
-		// 		return (
-		// 			<img src={images[1].url} />
-		// 			//<img src={images.url}> </img>
-		// 		);
-		// 	});
-		// });
 		return (
 			<div>
 				<h1 className="title">Suas playlists</h1>
-				{/* <div> {this.state.user}</div> */}
-
 				<div> {playlistImg}</div>
-				{/* <div className="organizacao">
-					<div className="images"> {playlistImg}</div>
-					<div className="info">{playlist}</div>
-				</div> */}
 			</div>
+			
 		);
 	};
 	render() {
-		// var playlists = this.state.data;
-		// var playlist = playlists.map((playlist) => {
-		// 	return <div> {playlist.name}</div>;
-		// });
-
-		// var playlistImg = playlists.map((playlist) => {
-		// 	return playlist.images.map((images) => {
-		// 		return (
-		// 			<img src={images.url} />
-		// 			//<img src={images.url}> </img>
-		// 		);
-		// 	});
-		// });
-		// const button1 = playlist();
 		return (
 			<div className="body_home">
 				<div className="container">
@@ -158,10 +155,16 @@ class Home extends Component {
 									Ver playlists
 								</a>
 							</button>
+
+							<button class="btn" onClick={this.newRelease}>
+								Buscar novos lançamentos
+							</button>
+							
 						</div>
 					</div>
 
 					{this.state.Userplaylist && <div>{this.playlist()}</div>}
+					{/* {this.state.Lancamentos && <div>{this.newRelease()}</div>} */}
 				</div>
 			</div>
 		);
