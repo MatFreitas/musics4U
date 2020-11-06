@@ -21,7 +21,8 @@
     margin-left: 300px;
     margin-top: -35px;
     padding-top: 30px;
-    min-width: 100%;
+    max-width: 100%;
+    /* min-width: 100%; */
 
 
 }
@@ -140,6 +141,11 @@
     flex-direction: column;
     color:white;
 }
+.lineORetorno{
+    width:920px;
+    margin:15px;
+    color:#454D4B;
+}
 
 .line{
     width:100%;
@@ -196,12 +202,27 @@
 .separando{
     flex-direction: row;
     display:flex;
-    width: 80%;
+    width: 84%;
     padding-left: 25px;
+    color:white;
+    justify-content: space-between;
+    /* background-color: sandybrown; */
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
 
+.separando_antigas{
+    flex-direction: row;
+    display:flex;
+    width: 74%;
+    padding-left: 25px;
+    color:white;
     justify-content: space-between;
     /* background-color: sandybrown; */
     font-size: 26px;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
 .grid-container {
@@ -230,6 +251,7 @@
     justify-content: space-around;
     /* padding-left: 20px; */
     color:white;
+    
 }
 
 .grid-item{
@@ -295,6 +317,12 @@
     color:white;
     font-size:25px;
     font-weight: bold;
+    align-self:center;
+
+}
+
+.antigastxt{
+    width:150px;
 }
 
 .albumtxt{

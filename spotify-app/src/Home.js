@@ -15,6 +15,7 @@ class Home extends Component {
 			dataTracks: [],
 			dataCur: [],
 			dataLast: [],
+			check: '',
 			user: '',
 			Userplaylist: false,
 			Novidades: false,
@@ -32,6 +33,50 @@ class Home extends Component {
 		this.current = this.current.bind(this);
 		this.current_music = this.current_music.bind(this);
 		this.latest = this.latest.bind(this);
+		this.handleClick = this.handleClick.bind(this);
+
+		var artistas = [
+			'Ed Sheeran',
+			'Harry Styles',
+			'The Beatles',
+			'The Who',
+			'The Kooks',
+			'The Doors',
+			'The Killers',
+			'The Lumineers',
+			'Maria Gadú',
+			'Bon Iver',
+			'Adele',
+			'Rihanna',
+			'Drake',
+			'Sam Smith',
+			'Elton John',
+			'Imagine Dragons',
+			'Russ',
+			'Tyga',
+			'2Pac',
+			'John Mayer'
+		];
+
+		var generos = [
+			'reggae',
+			'country',
+			'rock',
+			'pop',
+			'jazz',
+			'rap',
+			'sertanejo',
+			'pagode',
+			'blues',
+			'soul',
+			'funk',
+			'indie',
+			'MPB',
+			'eletrônica',
+			'disco',
+			'punk',
+			'acústico'
+		];
 	}
 
 	getHashParams() {
@@ -73,13 +118,22 @@ class Home extends Component {
 	myTracks = () => {
 		var tracks = this.state.dataTracks;
 		var track_saved = tracks.map((songs) => {
+			var tempo = songs.track.duration_ms / 1000;
+			var minutos = 0;
+			while (tempo >= 60) {
+				tempo = tempo - 60;
+				minutos += 1;
+			}
+
 			return (
 				<div>
-					<div className="musicas">
-						<p>{songs.track.name}</p>
-						<p>{songs.track.album.artists[0].name}</p>
+					<div className="antigas">
+						<p className="antigastxt">{songs.track.name}</p>
+						<p className="antigastxt">{songs.track.album.artists[0].name}</p>
 
-						<p>{(songs.track.duration_ms / 60000).toFixed(2)}</p>
+						<p>
+							{minutos}:{tempo.toFixed(0)}
+						</p>
 					</div>
 					<hr className="line" />
 				</div>
@@ -88,6 +142,11 @@ class Home extends Component {
 		return (
 			<div className="bloco">
 				<h1 className="title">Minhas Músicas</h1>
+				<div className="separando">
+					<div className="Texto"> Músicas</div>
+					<div className="Texto"> Artista</div>
+					<div className="Texto"> Tempo</div>
+				</div>
 				<div className="tracks-container">
 					<div>{track_saved}</div>
 				</div>
@@ -193,7 +252,7 @@ class Home extends Component {
 							)}
 						</div>
 					</div>
-					<hr className="line" />
+					<hr className="lineORetorno" />
 				</div>
 			);
 		});
@@ -222,7 +281,8 @@ class Home extends Component {
 					Userplaylist: false,
 					likedTracks: false,
 					Novidades: false,
-					Antigas: true
+					Antigas: true,
+					click: false
 				});
 				console.log(response.data);
 			})
@@ -257,8 +317,8 @@ class Home extends Component {
 			return (
 				<div>
 					<div className="antigas">
-						<p>{anterior.track.name}</p>
-						<p>{anterior.track.album.name}</p>
+						<p className="antigastxt">{anterior.track.name}</p>
+						<p className="antigastxt">{anterior.track.album.name}</p>
 					</div>
 					<hr className="line" />
 				</div>
@@ -268,11 +328,16 @@ class Home extends Component {
 		return (
 			<div
 				className="containerGeral"
-				style={{ backgroundImage: `url(${musics.item.album.images[0].url})`, backgroundSize: 0.25 }}
+				style={{
+					backgroundColor: `url(${musics.item.album.images[0].url})`,
+					backgroundImage: `url(${musics.item.album.images[0].url})`,
+					backgroundSize: 0.25
+				}}
 			>
 				<div className="escutados">
 					<h1 className="title"> Escutando agora </h1>
 				</div>
+
 				<div className="blocoEscutando">
 					<div className="centro">
 						<img src={musics.item.album.images[0].url} width={350} height={350} />
@@ -283,10 +348,11 @@ class Home extends Component {
 						<p className="albumtxt">{musics.item.album.name}</p>
 					</div>
 				</div>
+
 				<div className="blocoEscutando">
 					<div className="escutados">
 						<h1 className="title"> Últimas Escutadas </h1>
-						<div className="separando">
+						<div className="separando_antigas">
 							<h4>Música</h4>
 							<h4>Álbum</h4>
 						</div>
@@ -296,6 +362,38 @@ class Home extends Component {
 				</div>
 			</div>
 		);
+	};
+
+	// ----------------------------- favoritos -------------------------
+	favoritos = () => {
+		axios
+			.post('http://localhost:8888/router/users/', {
+				// body: {
+				user: 'fulano',
+				artista: [ 'naudo', 'the who' ],
+				genero: [ 'reggae, country' ]
+				// }
+			})
+			.then((response) => {
+				// this.setState({
+				// 	dataCur: response.data,
+				// 	Momento: true,
+				// 	Userplaylist: false,
+				// 	likedTracks: false,
+				// 	Novidades: false,
+				// 	Antigas: true
+				// });
+				console.log(response.data);
+			})
+			.catch((erro) => console.log(erro.response.data));
+	};
+
+	handleClick = (e) => {
+		const item = e.target.name;
+		const isChecked = e.target.checked;
+		this.setState({ check: 'oioioi' });
+		console.log(isChecked);
+		// <p>{name}</p>;
 	};
 
 	render() {
@@ -344,6 +442,20 @@ class Home extends Component {
 						>
 							Escutando
 						</button>
+						<button
+							class="btn"
+							style={{ backgroundColor: this.state.Momento ? '#454D4B' : 'transparent' }}
+							onClick={() => {
+								this.favoritos();
+							}}
+						>
+							Seus favoritos
+						</button>
+
+						<div>
+							<input type="checkbox" name="oi" ref="check_me" onChange={this.handleClick} />
+							<input type="checkbox" name="alo" ref="check_me" onChange={this.handleClick} />
+						</div>
 					</div>
 				</div>
 
