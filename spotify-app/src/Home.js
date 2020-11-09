@@ -3,7 +3,14 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import axios from 'axios';
 import './Home.css';
-import { AiOutlineTeam, AiFillCustomerService } from 'react-icons/ai';
+import {
+	AiOutlineTeam,
+	AiFillCustomerService,
+	AiFillFacebook,
+	AiFillInstagram,
+	AiFillTwitterSquare,
+	AiOutlineLinkedin
+} from 'react-icons/ai';
 import logoLindo from './logoLindo.png';
 
 class Home extends Component {
@@ -11,6 +18,7 @@ class Home extends Component {
 		super(props);
 		const parametros = this.getHashParams();
 		this.token = parametros.access_token;
+
 		this.state = {
 			data: [],
 			dataLan: [],
@@ -39,9 +47,13 @@ class Home extends Component {
 			home: true,
 			geraPlaylist: false,
 			dataGen: false,
-			userId: ''
+			userId: '',
+			maisOuvidasM: [],
+			recomendacoes: false,
+			recomendacoesPag: false
 		};
 
+		this.recomendacoesPag = this.recomendacoesPag.bind(this);
 		this.Userplaylist = this.Userplaylist.bind(this);
 		this.playlist = this.playlist.bind(this);
 		this.newRelease = this.newRelease.bind(this);
@@ -61,6 +73,7 @@ class Home extends Component {
 		this.fav_musics = this.fav_musics.bind(this);
 		this.topMusic = this.topMusic.bind(this);
 		this.gera = this.gera.bind(this);
+		this.pag_recomend = this.pag_recomend.bind(this);
 	}
 
 	getHashParams() {
@@ -97,7 +110,8 @@ class Home extends Component {
 					topMusicas: false,
 					favoritos: false,
 					artistaId: [],
-					home: false
+					home: false,
+					recomendacoesPag: false
 				});
 				console.log(response.data.items);
 			})
@@ -164,7 +178,8 @@ class Home extends Component {
 					topMusicas: false,
 					favoritos: false,
 					artistaId: [],
-					home: false
+					home: false,
+					recomendacoesPag: false
 				});
 				console.log(response.data.albums.items);
 			})
@@ -211,7 +226,8 @@ class Home extends Component {
 					topArtistas: false,
 					favoritos: false,
 					artistaId: [],
-					home: false
+					home: false,
+					recomendacoesPag: false
 				});
 				console.log(response.data.items);
 			})
@@ -287,7 +303,8 @@ class Home extends Component {
 					topArtistas: false,
 					favoritos: false,
 					artistaId: [],
-					home: false
+					home: false,
+					recomendacoesPag: false
 				});
 				console.log(response.data);
 			})
@@ -313,7 +330,8 @@ class Home extends Component {
 					topMusicas: false,
 					favoritos: false,
 					artistaId: [],
-					home: false
+					home: false,
+					recomendacoesPag: false
 				});
 				console.log(response.data.items);
 			})
@@ -340,7 +358,7 @@ class Home extends Component {
 				{!musics.is_playing ? (
 					<div className="bloco3">
 						{' '}
-						Para acessar essa página é necessário estar escutando algo no Spotify :)
+						Para acessar essa página é necessário estar escutando algo no Spotify !
 					</div>
 				) : (
 					<div
@@ -386,7 +404,7 @@ class Home extends Component {
 	// ---------------------------- top musicas -------------------------------
 	topMusic = () => {
 		axios
-			.get('https://api.spotify.com/v1/me/top/tracks', {
+			.get('https://api.spotify.com/v1/me/top/tracks?limit=20', {
 				headers: {
 					Authorization: `Bearer ${this.token}`
 				}
@@ -405,37 +423,50 @@ class Home extends Component {
 					click: false,
 					favoritos: false,
 					artistaId: [],
-					home: false
+					home: false,
+					maisOuvidasM: response.data.items[0].id,
+					recomendacoesPag: false
 				});
-				console.log(response.data.items);
+
+				console.log(this.state.maisOuvidasM);
 			})
 			.catch((erro) => console.log(erro.response.data));
 	};
 
 	fav_musics = () => {
 		var musicas = this.state.dataTopM;
+		var lista = [];
+
+		// var setando = this.setState({ maisOuvidasM: 'banana' });
 		var musica = musicas.map((topMusicas) => {
+			lista.push(topMusicas.id);
+			// console.log(lista);
+			// this.setState({ maisOuvidasM: 'lista' });
+			// console.log(this.state.maisOuvidasM);
+
 			return (
 				<div className="grid-item">
 					<img className="imagesRound" src={topMusicas.album.images[0].url} width={150} height={150} />
 					<div className="centralizacao">
 						<p className="TrackName">{topMusicas.name}</p>
 						<p className="Texto">{topMusicas.artists[0].name}</p>
-
-						{/* <p className="Texto">
-							<AiOutlineTeam />
-							{topCantores.followers.total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}
-						</p> */}
 					</div>
+					{/* <button onClick={this.setState({ maisOuvidasM: [ ...this.state.maisOuvidasM, topMusicas.id ] })}>
+						{' '}
+						Teste
+					</button> */}
 				</div>
 			);
 		});
+
 		return (
 			<div className="bloco">
 				<h1 className="title">Suas Músicas Favoritas</h1>
 				<div className="grid-container">{musica}</div>
 			</div>
 		);
+
+		// this.setState({ maisOuvidasM: lista });
 	};
 
 	// ----------------------------- top artistas ------------------------------
@@ -461,7 +492,8 @@ class Home extends Component {
 					topMusicas: false,
 					favoritos: false,
 					artistaId: [],
-					home: false
+					home: false,
+					recomendacoesPag: false
 				});
 				console.log(response.data.items);
 			})
@@ -521,7 +553,8 @@ class Home extends Component {
 					meusFavoritosGeneros: [],
 					artistaId: [],
 					home: false,
-					geraPlaylist: true
+					geraPlaylist: true,
+					recomendacoesPag: false
 				});
 				console.log(response.data);
 			})
@@ -542,7 +575,6 @@ class Home extends Component {
 			this.setState({ isChecked: false });
 		}
 
-		// this.setState({ check: 'oioioi', favoritos: true });
 		console.log(this.state.meusFavoritos);
 		console.log(item);
 	};
@@ -593,7 +625,8 @@ class Home extends Component {
 					favoritos: true,
 					topMusicas: false,
 					topArtistas: false,
-					home: false
+					home: false,
+					recomendacoesPag: false
 				});
 				console.log(this.state.artistaId);
 			})
@@ -601,33 +634,6 @@ class Home extends Component {
 	};
 
 	seusFavoritos = () => {
-		// var artistas = [
-		// 	'Ed Sheeran',
-		// 	'Harry Styles',
-		// 	'The Beatles',
-		// 	'The Who',
-		// 	'The Kooks',
-		// 	'The Doors',
-		// 	'The Killers',
-		// 	'Turma do Pagode',
-		// 	'Banda Eva',
-		// 	'Os Barões da Pisadinha',
-		// 	'Grupo Revelação',
-		// 	'The Lumineers',
-		// 	'Maria Gadú',
-		// 	'Bon Iver',
-		// 	'Adele',
-		// 	'Rihanna',
-		// 	'Drake',
-		// 	'Sam Smith',
-		// 	'Elton John',
-		// 	'Imagine Dragons',
-		// 	'Russ',
-		// 	'Tyga',
-		// 	'2Pac',
-		// 	'John Mayer'
-		// ];
-
 		var artistas = [];
 
 		var generos = [
@@ -747,27 +753,85 @@ class Home extends Component {
 		);
 	};
 
-	gera = () => {
-		axios
+	gera = async () => {
+		await axios
 			.get('http://localhost:8888/router/userbyid', {
-				user: 'bia'
+				params: {
+					user: this.state.user
+				}
 			})
 			.then((response) => {
 				this.setState({
-					// dataGen: response.data[0].genero_fav,
+					dataGen: response.data.genero_fav,
 					Antigas: false,
 					Momento: false,
 					Userplaylist: false,
 					likedTracks: false,
 					Novidades: false,
-					favoritos: true,
+					favoritos: false,
 					topMusicas: false,
 					topArtistas: false,
-					home: false
+					home: false,
+					recomendacoes: true,
+					recomendacoesPag: false
 				});
-				console.log(response);
+				console.log(response.data.genero_fav);
 			})
 			.catch((erro) => console.log(erro.response.data));
+	};
+
+	// -------------------------------recomendaçoesPagina---------------------
+	recomendacoesPag = () => {
+		axios
+			.get('https://api.spotify.com/v1/recommendations', {
+				headers: {
+					Authorization: `Bearer ${this.token}`
+				},
+				params: {
+					limit: 12,
+					seed_artists: this.state.artistaId,
+					seed_genres: this.state.dataGen,
+					seed_tracks: this.state.maisOuvidasM
+				}
+			})
+			.then((response) => {
+				this.setState({
+					dataReco: response.data.tracks,
+					Antigas: false,
+					Momento: false,
+					Userplaylist: false,
+					likedTracks: false,
+					Novidades: false,
+					favoritos: false,
+					topMusicas: false,
+					topArtistas: false,
+					home: false,
+					recomendacoes: false,
+					recomendacoesPag: true
+				});
+				console.log(this.state.dataReco);
+			})
+			.catch((erro) => console.log(erro.response.data));
+	};
+
+	pag_recomend = () => {
+		var recomendacao = this.state.dataReco;
+		var recomendar = recomendacao.map((topRecomendacao) => {
+			return (
+				<div className="grid-item">
+					<img className="imagesRound" src={topRecomendacao.album.images[0].url} width={150} height={150} />
+					<div className="centralizacao">
+						<p className="TrackName">{topRecomendacao.name}</p>
+					</div>
+				</div>
+			);
+		});
+		return (
+			<div className="bloco">
+				<h1 className="title">Sua playlist customizada!</h1>
+				<div className="grid-container">{recomendar}</div>
+			</div>
+		);
 	};
 
 	render() {
@@ -789,33 +853,14 @@ class Home extends Component {
 						>
 							Suas playlists
 						</button>
-
 						<button
 							class="btn"
-							style={{ backgroundColor: this.state.Novidades ? '#454D4B' : 'transparent' }}
-							onClick={this.newRelease}
+							style={{ backgroundColor: this.state.topMusicas ? '#454D4B' : 'transparent' }}
+							onClick={this.topMusic}
 						>
-							Novos lançamentos
+							Suas músicas mais ouvidas
 						</button>
 
-						<button
-							class="btn"
-							style={{ backgroundColor: this.state.likedTracks ? '#454D4B' : 'transparent' }}
-							onClick={this.savedTracks}
-						>
-							Minhas Músicas
-						</button>
-
-						<button
-							class="btn"
-							style={{ backgroundColor: this.state.Momento ? '#454D4B' : 'transparent' }}
-							onClick={() => {
-								this.current();
-								this.latest();
-							}}
-						>
-							Escutando
-						</button>
 						<button
 							class="btn"
 							style={{ backgroundColor: this.state.favoritos ? '#454D4B' : 'transparent' }}
@@ -831,7 +876,8 @@ class Home extends Component {
 									topMusicas: false,
 									meusFavoritos: [],
 									meusFavoritosGeneros: [],
-									home: false
+									home: false,
+									recomendacoesPag: false
 								});
 							}}
 						>
@@ -846,11 +892,43 @@ class Home extends Component {
 						</button>
 						<button
 							class="btn"
-							style={{ backgroundColor: this.state.topMusicas ? '#454D4B' : 'transparent' }}
-							onClick={this.topMusic}
+							style={{ backgroundColor: this.state.Novidades ? '#454D4B' : 'transparent' }}
+							onClick={this.newRelease}
 						>
-							Suas músicas mais ouvidas
+							Novos lançamentos
 						</button>
+						<button
+							class="btn"
+							style={{ backgroundColor: this.state.likedTracks ? '#454D4B' : 'transparent' }}
+							onClick={this.savedTracks}
+						>
+							Minhas Músicas
+						</button>
+						<button
+							class="btn"
+							style={{ backgroundColor: this.state.Momento ? '#454D4B' : 'transparent' }}
+							onClick={() => {
+								this.current();
+								this.latest();
+							}}
+						>
+							Escutando
+						</button>
+
+						<div className="lado2">
+							<a href=" https://pt-br.facebook.com/">
+								<AiFillFacebook color={'white'} size={40} />
+							</a>
+							<a href="https://twitter.com/login?lang=pt">
+								<AiFillTwitterSquare color={'white'} size={40} />
+							</a>
+							<a href=" https://www.instagram.com/">
+								<AiFillInstagram color={'white'} size={40} />
+							</a>
+							<a href=" https://www.linkedin.com/">
+								<AiOutlineLinkedin color={'white'} size={40} />
+							</a>
+						</div>
 					</div>
 				</div>
 
@@ -864,7 +942,7 @@ class Home extends Component {
 							<h4 className="bemVindo">Bem vindo ao Musics4U!</h4>
 							<p className="homeDesc">
 								{' '}
-								Para ter acesso às suas funcionalidades utilize a navbar ao lado :){' '}
+								Para ter acesso às suas funcionalidades utilize a navbar ao lado !{' '}
 							</p>
 						</div>
 					</div>
@@ -877,6 +955,8 @@ class Home extends Component {
 				{this.state.favoritos && <div>{this.seusFavoritos()} </div>}
 				{this.state.topArtistas && <div>{this.fav_artists()}</div>}
 				{this.state.topMusicas && <div>{this.fav_musics()}</div>}
+				{this.state.recomendacoes && <div>{this.recomendacoesPag()}</div>}
+				{this.state.recomendacoesPag && <div>{this.pag_recomend()}</div>}
 				{/* </div> */}
 			</div>
 		);

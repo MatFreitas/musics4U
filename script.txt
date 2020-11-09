@@ -1,0 +1,30 @@
+Oi Camila, tudo bem? 
+
+
+Para rodar o nosso backend, é necessário clonar o seguinte repositório:
+
+ https://github.com/beatrizbernardino/web-api-auth-examples.git
+
+Depois, por favor adicione duas chaves que não podíamos deixar nele. Para isso:
+
+1) Dentro da pasta authorization_code, no arquivo app.js, adicione na linha 16 a variável client_id(que já existe): 'ca202a7d6b6646aa9458a56515b54270'
+
+
+2) Ainda no app.js, agora na linha 17,  na variável client_secret: '86f8504207464693b44033275c2a6ee7'
+
+
+Além disso, para o Mongo: 
+
+1) mongod --dbpath "caminho para o repositório:  web-api-auth-examples/authorization_code/data"
+
+2) mongo
+
+3) use backend
+
+4) db.usercollection.insert({ "user": "Camila", "artista_fav": ["Maria Gadú", "Vanessa da Mata" ] , "genero_fav": [ "pop", "rock"]})
+
+
+
+
+
+Prontinho! Esperamos que goste do projeto :)

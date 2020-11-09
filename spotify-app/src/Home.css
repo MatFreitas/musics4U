@@ -20,6 +20,16 @@
    
 }
 
+.lado2{
+    display: flex;
+    align-items: space-between;
+    flex-direction: row; 
+    margin-left: 50px;
+    margin-top:140px;
+    
+    
+}
+
 .bloco{
    
     display: flex;
