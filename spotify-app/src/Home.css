@@ -13,6 +13,13 @@
     border-bottom-right-radius: 100px; */
 }
 
+.lado{
+    display: flex;
+    flex-direction: row; 
+    margin-left: 30px;
+   
+}
+
 .bloco{
    
     display: flex;
@@ -22,9 +29,75 @@
     margin-top: -35px;
     padding-top: 30px;
     max-width: 100%;
+    color:white;
     /* min-width: 100%; */
 
 
+}
+
+.form_group {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 10px;
+    width: 50%;
+    flex-direction: row;
+    display: flex;
+    margin-left:30px;
+  }
+
+.form_field {
+font-family: inherit;
+width: 100%;
+border: 0;
+border-bottom: 2px solid gray;
+outline: 0;
+font-size: 1.3rem;
+color: white;
+padding: 7px 0;
+background: transparent;
+transition: border-color 0.2s;
+}
+
+.bloco3{
+   
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-left: 280px;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    padding-top: 30px;
+    max-width: 100%;
+    width: 100%;
+    color:white;
+    min-width: 100%;
+    margin-top: 300px;
+
+
+}
+
+.btnSearch{
+    background-color: white;
+    width: 120px;
+    color: black;
+    height: 40px;
+    border-radius: 18px;
+    margin-left: 20px;
+    font-size:15px;
+}
+
+.btnPlaylist {
+    background-color:#454D4B;
+    width: 280px;
+    color: white;
+    height: 40px;
+    border-radius: 18px;
+    margin-left: 350px;
+    font-size:15px;
+    margin-top: 30px;
+    margin-bottom: 10px;
 }
 
 .body_home{
@@ -94,6 +167,22 @@
 .btn:focus {
     outline: none !important;
     outline-offset: none !important;
+}
+
+.btnSearch:focus{
+    outline: none !important;
+    outline-offset: none !important;
+
+}
+
+
+.btnPlaylist:focus{
+    outline: none !important;
+    outline-offset: none !important;
+
+}
+.descArt{
+    /* margin-left: 30px; */
 }
 
 .coluna{
@@ -346,4 +435,117 @@
     min-height: 100%;
     min-width: 100%;
 
-} 
+}
+
+.descricao{
+    margin-left: 30px;
+    font-size: 18px;
+
+}
+
+
+.input{
+    
+    display: flex;
+    height: 40px;
+    width: 200px;
+    align-items: center;
+    border-radius: 20px;
+    justify-content: center;
+    margin-left: 30px;
+    background-color: white;
+    margin-bottom: 10px;
+  
+  
+}
+
+.lista{
+    display:grid;
+    grid-template-columns: 2fr 2fr ;
+}
+
+.artistaTitulo{
+    margin-left: 30px;
+    font-size: 30px;
+}
+
+.inputGenero{
+    display: flex;
+    height: 40px;
+    width: 200px;
+    align-items: center;
+    border-radius: 20px;
+    justify-content: center;
+    margin-left: 30px;
+    background-color: white;
+    margin-bottom: 10px;
+  
+}
+.generos{
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr;
+    /* margin-top: 50px; */
+    margin-left: 130px;
+}
+
+.blocoFavoritos{
+
+    margin-left: 30px;
+}
+
+.testeCheck{
+    color:black
+}
+
+.btnSearch{
+
+    align-self: center;
+    margin-top: 30px;
+    margin-left: 105px;
+    font-weight: bold;
+    height:40px;
+    color: "#454D4B"
+    
+}
+
+.blocoHome {
+    align-items:center;
+    justify-content: center;
+    display:flex;
+    margin-left: 480px;
+    margin-top: 150px;
+    flex-direction: column;
+ 
+}
+
+label,
+label::before {
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+
+
+input[type="checkbox"]:checked + label,
+input[type="radio"]:checked + label {
+  padding-left: 1em;
+  color:black;
+
+}
+
+.txt{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+    color: white;
+    margin-top: 60px;
+    font-size: 22px;
+}
+
+.bemVindo {
+    font-weight:bold;
+    font-size: 24px;
+    margin-bottom: -16px;
+    
+}
